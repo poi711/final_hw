@@ -1,0 +1,27 @@
+<h1> 게시판 </h1>
+<form action="/home/create" method="post" enctype="multipart/form-data">
+  Title   : <input type="text" name="title"><br>
+  Content : <input type="text" name="content"><br>
+  <input type="file" name="pic" accept="image/*"><br>
+  <input type="submit" value="Submit">
+</form>
+<hr><hr>
+
+<h2> 게시글 목록</h2>
+<% @posts.each do |p| %>
+    Title   : <%= p.post_title %><br>
+    
+    <% unless p.image_url.nil? %>
+        <img src="<%= p.image_url %>">
+    <% end %>
+    
+    Content : <%= p.post_content %><br>
+    <% p.replies.each do |r| %>
+        Comment : <%= r.reply_content %><br>
+    <% end %>
+    <form action="/home/reply" method="post">
+        <input type="hidden" value="<%= p.id %>" name="post_id">
+        Comment : <input type="text" name="reply_content"><br>
+        <input type="submit" value="Submit">
+    </form>
+<% end %>
